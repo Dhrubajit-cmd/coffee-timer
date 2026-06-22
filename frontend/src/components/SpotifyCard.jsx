@@ -77,64 +77,72 @@ export default function SpotifyCard() {
         <span className="spotify-logo">🟢 Spotify Companion</span>
       </div>
 
-      <div className="spotify-playback-area">
-        {isSpotifyActive ? (
-          <div className="spotify-track-info">
-            <div className="spotify-album-art-container">
-              {status.artworkUrl ? (
-                <img className="spotify-album-art" src={status.artworkUrl} alt={status.albumName} />
-              ) : (
-                <div className="spotify-album-art-placeholder">🎵</div>
-              )}
-            </div>
-            <div className="spotify-metadata">
-              <div className="spotify-track-name">{status.trackName}</div>
-              <div className="spotify-artist-name">{status.artistName}</div>
-              <div className="spotify-album-name">{status.albumName}</div>
-            </div>
-          </div>
-        ) : (
-          <div className="spotify-inactive">
-            <p>Spotify process is inactive or paused.</p>
-            <p className="subtext">Start the timer or open Spotify to stream music.</p>
-          </div>
-        )}
+      <div className="spotify-card-body">
+        {/* Left Column: Playback info and player controls */}
+        <div className="spotify-body-left">
+          <div className="spotify-playback-area">
+            {isSpotifyActive ? (
+              <div className="spotify-track-info">
+                <div className="spotify-album-art-container">
+                  {status.artworkUrl ? (
+                    <img className="spotify-album-art" src={status.artworkUrl} alt={status.albumName} />
+                  ) : (
+                    <div className="spotify-album-art-placeholder">🎵</div>
+                  )}
+                </div>
+                <div className="spotify-metadata">
+                  <div className="spotify-track-name" title={status.trackName}>{status.trackName}</div>
+                  <div className="spotify-artist-name" title={status.artistName}>{status.artistName}</div>
+                  <div className="spotify-album-name" title={status.albumName}>{status.albumName}</div>
+                </div>
+              </div>
+            ) : (
+              <div className="spotify-inactive">
+                <p>Spotify process is inactive or paused.</p>
+                <p className="subtext">Start the timer or open Spotify to stream music.</p>
+              </div>
+            )}
 
-        <div className="spotify-controls">
-          <button 
-            className="spotify-control-btn" 
-            onClick={() => triggerAction(status.isPlaying ? 'pause' : 'resume')}
-            title={status.isPlaying ? 'Pause' : 'Play'}
-          >
-            {status.isPlaying ? '⏸' : '▶'}
-          </button>
-          <button 
-            className="spotify-control-btn" 
-            onClick={() => triggerAction('next')}
-            title="Next Track"
-          >
-            ⏭
+            <div className="spotify-controls">
+              <button 
+                className="spotify-control-btn" 
+                onClick={() => triggerAction(status.isPlaying ? 'pause' : 'resume')}
+                title={status.isPlaying ? 'Pause' : 'Play'}
+              >
+                {status.isPlaying ? '⏸' : '▶'}
+              </button>
+              <button 
+                className="spotify-control-btn" 
+                onClick={() => triggerAction('next')}
+                title="Next Track"
+              >
+                ⏭
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Playlist link updates and launch button */}
+        <div className="spotify-body-right">
+          <form className="spotify-playlist-form" onSubmit={handleSavePlaylist}>
+            <label htmlFor="spotify-playlist-input">LO-FI PLAYLIST LINK</label>
+            <input 
+              id="spotify-playlist-input"
+              type="text" 
+              placeholder="Paste Spotify playlist link" 
+              value={playlistInput}
+              onChange={(e) => setPlaylistInput(e.target.value)}
+            />
+            <button type="submit" className="spotify-save-btn" disabled={isSaving}>
+              {isSaving ? 'Saving...' : 'Update Playlist'}
+            </button>
+          </form>
+
+          <button className="spotify-open-app-btn" onClick={() => triggerAction('open')}>
+            Open Spotify App
           </button>
         </div>
       </div>
-
-      <form className="spotify-playlist-form" onSubmit={handleSavePlaylist}>
-        <label htmlFor="spotify-playlist-input">LO-FI PLAYLIST LINK</label>
-        <input 
-          id="spotify-playlist-input"
-          type="text" 
-          placeholder="Paste Spotify playlist link" 
-          value={playlistInput}
-          onChange={(e) => setPlaylistInput(e.target.value)}
-        />
-        <button type="submit" className="spotify-save-btn" disabled={isSaving}>
-          {isSaving ? 'Saving...' : 'Update Playlist'}
-        </button>
-      </form>
-
-      <button className="spotify-open-app-btn" onClick={() => triggerAction('open')}>
-        Open Spotify App
-      </button>
     </div>
   );
 }
