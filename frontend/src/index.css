@@ -41,11 +41,15 @@ body {
 
 #root {
   width: 100%;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
 /* Custom Scrollbar */

@@ -20,7 +20,7 @@
 
 .app-container {
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   background-color: var(--bg-darker);
   border: 1px solid var(--card-border);
   border-radius: 12px;
@@ -44,6 +44,17 @@
   flex-direction: column;
   gap: 16px;
   text-align: left;
+}
+
+@media (min-width: 820px) {
+  .app-container {
+    width: 420px;
+    flex-shrink: 0;
+  }
+  .spotify-card {
+    width: 320px;
+    flex-shrink: 0;
+  }
 }
 
 .spotify-card-header {
