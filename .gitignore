@@ -1,0 +1,15 @@
+# Databases
+backend/*.db
+
+# Node dependencies
+frontend/node_modules/
+node_modules/
+
+# Production builds
+frontend/dist/
+dist/
+
+# IDE files
+.idea/
+.vscode/
+.DS_Store

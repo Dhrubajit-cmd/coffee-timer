@@ -1,0 +1,64 @@
+:root {
+  --bg: #000000;
+  --bg-darker: #050505;
+  --card-bg: #0a0a0a;
+  --card-border: #1a1a1a;
+  --text: #ffffff;
+  --text-muted: #888888;
+  --accent-orange: #ff5722;
+  --accent-orange-hover: #d84315;
+  --accent-orange-bg: rgba(255, 87, 34, 0.1);
+  --accent-green: #4caf50;
+  --accent-green-hover: #388e3c;
+  --accent-green-bg: rgba(76, 175, 80, 0.1);
+  --grey-disabled: #2c2c2c;
+  --grey-disabled-text: #666666;
+  
+  --font-retro: 'VT323', monospace;
+  --font-sans: 'Outfit', sans-serif;
+  
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
