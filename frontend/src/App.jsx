@@ -9,7 +9,7 @@ export default function App() {
   const [timerState, setTimerState] = useState(null);
   const [config, setConfig] = useState(null);
   const [bgVideoId, setBgVideoId] = useState(() => {
-    return localStorage.getItem('bgVideoId') || 'WJ_G82h2xSg';
+    return localStorage.getItem('bgVideoId') || '';
   });
 
   // Fetch initial configuration

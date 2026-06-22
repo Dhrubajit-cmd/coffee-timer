@@ -83,10 +83,10 @@ export default function ConfigPanel({ duration, onSave, bgVideoId, onUpdateBgVid
           <input
             id="bg-video-input"
             type="text"
-            style={{ width: '110px', fontSize: '13px', textAlign: 'center', fontFamily: 'monospace' }}
+            style={{ width: '130px', fontSize: '12px', textAlign: 'center', fontFamily: 'monospace' }}
             value={tempBgVideoId}
             onChange={(e) => setTempBgVideoId(e.target.value)}
-            placeholder="YouTube ID"
+            placeholder="YouTube ID (empty for local)"
           />
         </div>
       </div>

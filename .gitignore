@@ -13,3 +13,6 @@ dist/
 .idea/
 .vscode/
 .DS_Store
+
+# Raw user video assets
+video/

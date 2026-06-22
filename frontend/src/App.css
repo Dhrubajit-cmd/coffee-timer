@@ -13,6 +13,15 @@
   background-color: #000;
 }
 
+.video-background-html5 {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* covers screen perfectly without distortion */
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 .video-background-iframe {
   width: 100vw;
   height: 56.25vw; /* 16:9 aspect ratio */
