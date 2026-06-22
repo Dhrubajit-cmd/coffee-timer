@@ -18,14 +18,19 @@ func main() {
 
 	// Setup clean architecture layers
 	repo := repository.NewSQLTimerRepository()
-	svc := service.NewTimerService(repo)
+	spotifySvc := service.NewSpotifyService(repo)
+	svc := service.NewTimerService(repo, spotifySvc)
 	handler := handlers.NewTimerHandler(svc)
+	spotifyHandler := handlers.NewSpotifyHandler(spotifySvc)
 
 	// Register routes
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/config", handler.HandleConfig)
 	mux.HandleFunc("/api/timer", handler.HandleTimer)
 	mux.HandleFunc("/api/timer/action", handler.HandleTimerAction)
+	mux.HandleFunc("/api/spotify/status", spotifyHandler.HandleSpotifyStatus)
+	mux.HandleFunc("/api/spotify/action", spotifyHandler.HandleSpotifyAction)
+	mux.HandleFunc("/api/spotify/playlist", spotifyHandler.HandleSpotifyPlaylist)
 
 	// Wrap in CORS middleware
 	serverHandler := middleware.CorsMiddleware(mux)

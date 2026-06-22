@@ -19,7 +19,8 @@ func InitDB(filepath string) {
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS config (
 			id INTEGER PRIMARY KEY CHECK (id = 1),
-			duration_seconds INTEGER NOT NULL
+			duration_seconds INTEGER NOT NULL,
+			spotify_playlist_url TEXT NOT NULL
 		);`,
 		`CREATE TABLE IF NOT EXISTS timer_state (
 			id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -36,20 +37,21 @@ func InitDB(filepath string) {
 		}
 	}
 
-	// Insert default config if empty (0 seconds default duration)
+	// Insert default config if empty
 	var count int
 	err = DB.QueryRow("SELECT COUNT(*) FROM config").Scan(&count)
 	if err != nil {
 		log.Fatalf("Failed to query config count: %v", err)
 	}
 	if count == 0 {
-		_, err = DB.Exec("INSERT INTO config (id, duration_seconds) VALUES (1, 0)")
+		_, err = DB.Exec(`INSERT INTO config (id, duration_seconds, spotify_playlist_url) 
+			VALUES (1, 0, 'https://open.spotify.com/playlist/5m8hWoxPvKRFRW2Oer7RGA?si=5657dccf138549d4')`)
 		if err != nil {
 			log.Fatalf("Failed to insert default config: %v", err)
 		}
 	}
 
-	// Insert default timer_state if empty (0 seconds defaults)
+	// Insert default timer_state if empty
 	err = DB.QueryRow("SELECT COUNT(*) FROM timer_state").Scan(&count)
 	if err != nil {
 		log.Fatalf("Failed to query timer_state count: %v", err)

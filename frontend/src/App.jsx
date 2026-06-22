@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Timer from './components/Timer';
 import ConfigPanel from './components/ConfigPanel';
+import SpotifyCard from './components/SpotifyCard';
 
 export default function App() {
   const [timerState, setTimerState] = useState(null);
@@ -56,34 +57,40 @@ export default function App() {
   }
 
   return (
-    <div className="app-container">
-      {/* Header and sign-out */}
-      <div className="app-header">
-        <span>minimalfocus_timer</span>
-        <div className="profile-info">
-          <span>Dhrubajit</span>
-          <span className="sign-out">[→ Sign Out]</span>
+    <div className="layout-wrapper">
+      {/* Left Column: Spotify Card */}
+      <SpotifyCard />
+
+      {/* Right Column: Timer Container */}
+      <div className="app-container">
+        {/* Header and sign-out */}
+        <div className="app-header">
+          <span>minimalfocus_timer</span>
+          <div className="profile-info">
+            <span>Dhrubajit</span>
+            <span className="sign-out">[→ Sign Out]</span>
+          </div>
         </div>
+
+        {/* Status Banner - Styled in Green theme */}
+        <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(76, 175, 80, 0.1)', borderColor: 'rgba(76, 175, 80, 0.2)' }}>
+          <span className="banner-title" style={{ color: 'var(--accent-green)' }}>
+            Focus Time
+          </span>
+          <span className="banner-desc">
+            Stay focused and write some code!
+          </span>
+        </div>
+
+        {/* Spacing & Timings adjustments */}
+        <ConfigPanel 
+          duration={config.duration} 
+          onSave={handleConfigSaved}
+        />
+
+        {/* Main Timer Display */}
+        <Timer state={timerState} onStateChange={handleStateChange} />
       </div>
-
-      {/* Status Banner - Styled in Green theme */}
-      <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(76, 175, 80, 0.1)', borderColor: 'rgba(76, 175, 80, 0.2)' }}>
-        <span className="banner-title" style={{ color: 'var(--accent-green)' }}>
-          Focus Time
-        </span>
-        <span className="banner-desc">
-          Stay focused and write some code!
-        </span>
-      </div>
-
-      {/* Spacing & Timings adjustments */}
-      <ConfigPanel 
-        duration={config.duration} 
-        onSave={handleConfigSaved}
-      />
-
-      {/* Main Timer Display */}
-      <Timer state={timerState} onStateChange={handleStateChange} />
     </div>
   );
 }

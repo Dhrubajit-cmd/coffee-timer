@@ -31,7 +31,8 @@ func TestTimerOperations(t *testing.T) {
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS config (
 			id INTEGER PRIMARY KEY CHECK (id = 1),
-			duration_seconds INTEGER NOT NULL
+			duration_seconds INTEGER NOT NULL,
+			spotify_playlist_url TEXT NOT NULL
 		);`,
 		`CREATE TABLE IF NOT EXISTS timer_state (
 			id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -49,11 +50,11 @@ func TestTimerOperations(t *testing.T) {
 	}
 
 	// Insert defaults
-	_, _ = db.DB.Exec("INSERT INTO config (id, duration_seconds) VALUES (1, 0)")
+	_, _ = db.DB.Exec("INSERT INTO config (id, duration_seconds, spotify_playlist_url) VALUES (1, 0, '')")
 	_, _ = db.DB.Exec("INSERT INTO timer_state (id, duration, time_remaining, start_time, is_running) VALUES (1, 0, 0, 0, 0)")
 
 	repo := repository.NewSQLTimerRepository()
-	svc := service.NewTimerService(repo)
+	svc := service.NewTimerService(repo, nil)
 
 	// Test initial paused state
 	state, err := svc.GetActiveTimer()
@@ -116,7 +117,8 @@ func TestConfigEndpoint(t *testing.T) {
 
 	_, _ = db.DB.Exec(`CREATE TABLE IF NOT EXISTS config (
 		id INTEGER PRIMARY KEY CHECK (id = 1),
-		duration_seconds INTEGER NOT NULL
+		duration_seconds INTEGER NOT NULL,
+		spotify_playlist_url TEXT NOT NULL
 	);`)
 	_, _ = db.DB.Exec(`CREATE TABLE IF NOT EXISTS timer_state (
 		id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -125,11 +127,11 @@ func TestConfigEndpoint(t *testing.T) {
 		start_time INTEGER NOT NULL,
 		is_running INTEGER NOT NULL
 	);`)
-	_, _ = db.DB.Exec("INSERT INTO config (id, duration_seconds) VALUES (1, 1500)")
+	_, _ = db.DB.Exec("INSERT INTO config (id, duration_seconds, spotify_playlist_url) VALUES (1, 1500, '')")
 	_, _ = db.DB.Exec("INSERT INTO timer_state (id, duration, time_remaining, start_time, is_running) VALUES (1, 1500, 1500, 0, 0)")
 
 	repo := repository.NewSQLTimerRepository()
-	svc := service.NewTimerService(repo)
+	svc := service.NewTimerService(repo, nil)
 	handler := handlers.NewTimerHandler(svc)
 
 	// GET config

@@ -1,8 +1,9 @@
 package models
 
 type Config struct {
-	ID              int
-	DurationSeconds int
+	ID                 int
+	DurationSeconds    int
+	SpotifyPlaylistURL string
 }
 
 type TimerState struct {
