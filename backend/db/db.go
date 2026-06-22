@@ -1,4 +1,4 @@
-package main
+package db
 
 import (
 	"database/sql"
@@ -7,16 +7,15 @@ import (
 	_ "modernc.org/sqlite"
 )
 
-var db *sql.DB
+var DB *sql.DB
 
-func initDB(filepath string) {
+func InitDB(filepath string) {
 	var err error
-	db, err = sql.Open("sqlite", filepath)
+	DB, err = sql.Open("sqlite", filepath)
 	if err != nil {
 		log.Fatalf("Failed to open SQLite database: %v", err)
 	}
 
-	// Create tables if they do not exist
 	queries := []string{
 		`CREATE TABLE IF NOT EXISTS config (
 			id INTEGER PRIMARY KEY CHECK (id = 1),
@@ -32,31 +31,31 @@ func initDB(filepath string) {
 	}
 
 	for _, query := range queries {
-		if _, err := db.Exec(query); err != nil {
+		if _, err := DB.Exec(query); err != nil {
 			log.Fatalf("Failed to create table query %q: %v", query, err)
 		}
 	}
 
-	// Insert default config if empty (25 mins)
+	// Insert default config if empty (0 seconds default duration)
 	var count int
-	err = db.QueryRow("SELECT COUNT(*) FROM config").Scan(&count)
+	err = DB.QueryRow("SELECT COUNT(*) FROM config").Scan(&count)
 	if err != nil {
 		log.Fatalf("Failed to query config count: %v", err)
 	}
 	if count == 0 {
-		_, err = db.Exec("INSERT INTO config (id, duration_seconds) VALUES (1, 1500)")
+		_, err = DB.Exec("INSERT INTO config (id, duration_seconds) VALUES (1, 0)")
 		if err != nil {
 			log.Fatalf("Failed to insert default config: %v", err)
 		}
 	}
 
-	// Insert default timer_state if empty
-	err = db.QueryRow("SELECT COUNT(*) FROM timer_state").Scan(&count)
+	// Insert default timer_state if empty (0 seconds defaults)
+	err = DB.QueryRow("SELECT COUNT(*) FROM timer_state").Scan(&count)
 	if err != nil {
 		log.Fatalf("Failed to query timer_state count: %v", err)
 	}
 	if count == 0 {
-		_, err = db.Exec("INSERT INTO timer_state (id, duration, time_remaining, start_time, is_running) VALUES (1, 1500, 1500, 0, 0)")
+		_, err = DB.Exec("INSERT INTO timer_state (id, duration, time_remaining, start_time, is_running) VALUES (1, 0, 0, 0, 0)")
 		if err != nil {
 			log.Fatalf("Failed to insert default timer_state: %v", err)
 		}

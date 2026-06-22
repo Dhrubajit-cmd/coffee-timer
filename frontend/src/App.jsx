@@ -66,9 +66,9 @@ export default function App() {
         </div>
       </div>
 
-      {/* Status Banner */}
-      <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(255, 87, 34, 0.1)', borderColor: 'rgba(255, 87, 34, 0.2)' }}>
-        <span className="banner-title" style={{ color: 'var(--accent-orange)' }}>
+      {/* Status Banner - Styled in Green theme */}
+      <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(76, 175, 80, 0.1)', borderColor: 'rgba(76, 175, 80, 0.2)' }}>
+        <span className="banner-title" style={{ color: 'var(--accent-green)' }}>
           Focus Time
         </span>
         <span className="banner-desc">

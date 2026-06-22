@@ -71,12 +71,13 @@ export default function Timer({ state, onStateChange }) {
   };
 
   const formatTime = (secs) => {
-    const m = Math.floor(secs / 60);
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor((secs % 3600) / 60);
     const s = secs % 60;
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const progress = state.duration > 0 ? localRemaining / state.duration : 1;
+  const progress = state.duration > 0 ? localRemaining / state.duration : 0; // if duration is 0, progress is 0
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -110,7 +111,7 @@ export default function Timer({ state, onStateChange }) {
         <button 
           className="btn btn-resume" 
           onClick={() => triggerAction('resume')} 
-          disabled={state.isRunning}
+          disabled={state.isRunning || localRemaining <= 0}
         >
           Resume
         </button>
