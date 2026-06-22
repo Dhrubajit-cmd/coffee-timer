@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export default function ConfigPanel({ duration, onSave }) {
+export default function ConfigPanel({ duration, onSave, bgVideoId, onUpdateBgVideoId }) {
   const [hours, setHours] = useState(Math.floor(duration / 3600));
   const [minutes, setMinutes] = useState(Math.floor((duration % 3600) / 60));
+  const [tempBgVideoId, setTempBgVideoId] = useState(bgVideoId || 'WJ_G82h2xSg');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -10,8 +11,18 @@ export default function ConfigPanel({ duration, onSave }) {
     setMinutes(Math.floor((duration % 3600) / 60));
   }, [duration]);
 
+  useEffect(() => {
+    if (bgVideoId) {
+      setTempBgVideoId(bgVideoId);
+    }
+  }, [bgVideoId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (onUpdateBgVideoId) {
+      onUpdateBgVideoId(tempBgVideoId);
+    }
+
     const totalSeconds = (hours * 3600) + (minutes * 60);
     if (totalSeconds < 0) return;
     
@@ -63,6 +74,20 @@ export default function ConfigPanel({ duration, onSave }) {
             onChange={(e) => setMinutes(Math.max(0, Math.min(59, parseInt(e.target.value) || 0)))}
           />
           <span>min</span>
+        </div>
+      </div>
+
+      <div className="config-row">
+        <label htmlFor="bg-video-input">BG Video ID</label>
+        <div className="config-input-group">
+          <input
+            id="bg-video-input"
+            type="text"
+            style={{ width: '110px', fontSize: '13px', textAlign: 'center', fontFamily: 'monospace' }}
+            value={tempBgVideoId}
+            onChange={(e) => setTempBgVideoId(e.target.value)}
+            placeholder="YouTube ID"
+          />
         </div>
       </div>
 

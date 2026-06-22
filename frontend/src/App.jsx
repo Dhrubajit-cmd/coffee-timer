@@ -3,10 +3,14 @@ import './App.css';
 import Timer from './components/Timer';
 import ConfigPanel from './components/ConfigPanel';
 import SpotifyCard from './components/SpotifyCard';
+import VideoBackground from './components/VideoBackground';
 
 export default function App() {
   const [timerState, setTimerState] = useState(null);
   const [config, setConfig] = useState(null);
+  const [bgVideoId, setBgVideoId] = useState(() => {
+    return localStorage.getItem('bgVideoId') || 'WJ_G82h2xSg';
+  });
 
   // Fetch initial configuration
   const fetchConfig = async () => {
@@ -48,6 +52,11 @@ export default function App() {
     fetchTimerState();
   };
 
+  const handleUpdateBgVideoId = (newId) => {
+    setBgVideoId(newId);
+    localStorage.setItem('bgVideoId', newId);
+  };
+
   if (!timerState || !config) {
     return (
       <div style={{ color: '#888', fontFamily: 'monospace', padding: '40px', textAlign: 'center' }}>
@@ -58,6 +67,9 @@ export default function App() {
 
   return (
     <div className="layout-wrapper">
+      {/* Looping video background behind the layout elements */}
+      <VideoBackground videoId={bgVideoId} />
+
       <div className="timer-wrapper">
         {/* Spotify Card is positioned absolutely on the left of this centered container */}
         <SpotifyCard />
@@ -74,7 +86,7 @@ export default function App() {
           </div>
 
           {/* Status Banner - Styled in Green theme */}
-          <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(76, 175, 80, 0.1)', borderColor: 'rgba(76, 175, 80, 0.2)' }}>
+          <div className="status-banner focus-mode" style={{ backgroundColor: 'rgba(76, 175, 80, 0.15)', borderColor: 'rgba(76, 175, 80, 0.25)' }}>
             <span className="banner-title" style={{ color: 'var(--accent-green)' }}>
               Focus Time
             </span>
@@ -87,6 +99,8 @@ export default function App() {
           <ConfigPanel 
             duration={config.duration} 
             onSave={handleConfigSaved}
+            bgVideoId={bgVideoId}
+            onUpdateBgVideoId={handleUpdateBgVideoId}
           />
 
           {/* Main Timer Display */}
