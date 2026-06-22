@@ -123,7 +123,12 @@
 
 @media (min-width: 1000px) {
   .timer-wrapper {
-    width: 420px; /* keeps the center timer container standard */
+    width: auto;
+    max-width: 1000px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
   }
   .app-container {
     width: 420px;
@@ -133,10 +138,10 @@
     width: 480px; /* wider length */
     max-width: 480px;
     flex-shrink: 0;
-    position: absolute;
-    right: calc(100% + 24px); /* exactly 24px gap to the left of the centered timer-wrapper */
+    position: relative;
     left: auto;
-    top: 0; /* top alignment match */
+    right: auto;
+    top: auto;
     transform: none;
   }
   .spotify-card-body {
@@ -152,6 +157,7 @@
     margin-top: auto;
   }
 }
+
 
 .spotify-card-header {
   border-bottom: 1px solid #161616;

@@ -8,9 +8,6 @@ import VideoBackground from './components/VideoBackground';
 export default function App() {
   const [timerState, setTimerState] = useState(null);
   const [config, setConfig] = useState(null);
-  const [bgVideoId, setBgVideoId] = useState(() => {
-    return localStorage.getItem('bgVideoId') || '';
-  });
 
   // Fetch initial configuration
   const fetchConfig = async () => {
@@ -52,11 +49,6 @@ export default function App() {
     fetchTimerState();
   };
 
-  const handleUpdateBgVideoId = (newId) => {
-    setBgVideoId(newId);
-    localStorage.setItem('bgVideoId', newId);
-  };
-
   if (!timerState || !config) {
     return (
       <div style={{ color: '#888', fontFamily: 'monospace', padding: '40px', textAlign: 'center' }}>
@@ -68,7 +60,7 @@ export default function App() {
   return (
     <div className="layout-wrapper">
       {/* Looping video background behind the layout elements */}
-      <VideoBackground videoId={bgVideoId} />
+      <VideoBackground />
 
       <div className="timer-wrapper">
         {/* Spotify Card is positioned absolutely on the left of this centered container */}
@@ -99,8 +91,6 @@ export default function App() {
           <ConfigPanel 
             duration={config.duration} 
             onSave={handleConfigSaved}
-            bgVideoId={bgVideoId}
-            onUpdateBgVideoId={handleUpdateBgVideoId}
           />
 
           {/* Main Timer Display */}
@@ -110,3 +100,4 @@ export default function App() {
     </div>
   );
 }
+
