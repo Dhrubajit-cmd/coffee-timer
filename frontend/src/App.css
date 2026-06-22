@@ -10,6 +10,17 @@
   padding: 40px 20px;
 }
 
+/* Centered container wrapper that bounds both card items */
+.timer-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
 @media (max-width: 1000px) {
   .layout-wrapper {
     flex-direction: column;
@@ -64,6 +75,9 @@
 }
 
 @media (min-width: 1000px) {
+  .timer-wrapper {
+    width: 420px; /* keeps the center timer container standard */
+  }
   .app-container {
     width: 420px;
     flex-shrink: 0;
@@ -73,9 +87,10 @@
     max-width: 480px;
     flex-shrink: 0;
     position: absolute;
-    left: 40px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: calc(100% + 24px); /* exactly 24px gap to the left of the centered timer-wrapper */
+    left: auto;
+    top: 0; /* top alignment match */
+    transform: none;
   }
   .spotify-card-body {
     flex-direction: row;
