@@ -77,13 +77,13 @@
 .app-container {
   width: 100%;
   max-width: 420px;
-  background: rgba(18, 26, 20, 0.45);
+  background: rgba(20, 20, 20, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 30px 24px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(3px) saturate(110%);
+  -webkit-backdrop-filter: blur(3px) saturate(110%);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -93,13 +93,13 @@
 .spotify-card {
   width: 100%;
   max-width: 420px; /* aligns with the timer card on mobile */
-  background: rgba(18, 26, 20, 0.45);
+  background: rgba(20, 20, 20, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   padding: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px) saturate(120%);
-  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(3px) saturate(110%);
+  -webkit-backdrop-filter: blur(3px) saturate(110%);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -176,8 +176,8 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 8px;
   padding: 16px;
   height: 100%;
@@ -397,8 +397,8 @@
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: transparent;
+  border: none;
   border-radius: 10px;
   padding: 14px;
   width: 100%;
