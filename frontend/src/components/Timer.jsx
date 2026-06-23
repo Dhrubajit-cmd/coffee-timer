@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CoffeeCup from './CoffeeCup';
 
-export default function Timer({ state, onStateChange }) {
+export default function Timer({ state, onAction, onTimeTick }) {
   const [localRemaining, setLocalRemaining] = useState(state.timeRemaining);
   const timerRef = useRef(null);
 
@@ -15,13 +15,13 @@ export default function Timer({ state, onStateChange }) {
     if (state.isRunning && localRemaining > 0) {
       timerRef.current = setInterval(() => {
         setLocalRemaining((prev) => {
-          if (prev <= 1) {
+          const nextVal = prev > 0 ? prev - 1 : 0;
+          onTimeTick(nextVal);
+          if (nextVal === 0) {
             clearInterval(timerRef.current);
-            // Trigger server-sync when local timer finishes
-            syncWithServer();
-            return 0;
+            onAction('pause'); // Pause on finish
           }
-          return prev - 1;
+          return nextVal;
         });
       }, 1000);
     } else {
@@ -33,41 +33,8 @@ export default function Timer({ state, onStateChange }) {
     };
   }, [state.isRunning, localRemaining]);
 
-  // Periodic alignment check with server to prevent drift (e.g. every 8 seconds)
-  useEffect(() => {
-    if (!state.isRunning) return;
-    const interval = setInterval(() => {
-      syncWithServer();
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [state.isRunning]);
-
-  const syncWithServer = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/api/timer');
-      if (response.ok) {
-        const data = await response.json();
-        onStateChange(data);
-      }
-    } catch (err) {
-      console.error("Failed to sync timer with server:", err);
-    }
-  };
-
-  const triggerAction = async (action) => {
-    try {
-      const response = await fetch('http://localhost:8080/api/timer/action', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        onStateChange(data);
-      }
-    } catch (err) {
-      console.error(`Failed to trigger action ${action}:`, err);
-    }
+  const triggerAction = (action) => {
+    onAction(action);
   };
 
   const formatTime = (secs) => {
@@ -77,7 +44,7 @@ export default function Timer({ state, onStateChange }) {
     return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const progress = state.duration > 0 ? localRemaining / state.duration : 0; // if duration is 0, progress is 0
+  const progress = state.duration > 0 ? localRemaining / state.duration : 0;
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -126,3 +93,4 @@ export default function Timer({ state, onStateChange }) {
     </div>
   );
 }
+

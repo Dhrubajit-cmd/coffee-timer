@@ -10,29 +10,17 @@ export default function ConfigPanel({ duration, onSave }) {
     setMinutes(Math.floor((duration % 3600) / 60));
   }, [duration]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const totalSeconds = (hours * 3600) + (minutes * 60);
     if (totalSeconds < 0) return;
     
     setIsSaving(true);
-    try {
-      const response = await fetch('http://localhost:8080/api/config', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          duration: totalSeconds,
-        }),
-      });
-      if (response.ok) {
-        onSave();
-      }
-    } catch (err) {
-      console.error("Failed to save config:", err);
-    } finally {
+    onSave(totalSeconds);
+    setTimeout(() => {
       setIsSaving(false);
-    }
+    }, 200);
   };
 
   return (
