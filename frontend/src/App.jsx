@@ -68,13 +68,9 @@ export default function App() {
 
         {/* Center-aligned Coffee Timer card */}
         <div className="app-container">
-          {/* Header and sign-out */}
+          {/* Header */}
           <div className="app-header">
             <span>minimalfocus_timer</span>
-            <div className="profile-info">
-              <span>Dhrubajit</span>
-              <span className="sign-out">[→ Sign Out]</span>
-            </div>
           </div>
 
           {/* Status Banner - Styled in Green theme */}
